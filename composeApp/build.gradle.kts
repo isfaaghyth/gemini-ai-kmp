@@ -6,11 +6,8 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.ktorfit)
     alias(libs.plugins.ksp)
-    id("kotlinx-serialization")
+    alias(libs.plugins.kotlinxSerialization)
 }
-
-val ktorVersion = "2.3.10"
-val ktorfitVersion = "2.0.0-beta1"
 
 kotlin {
     androidTarget {
@@ -43,19 +40,19 @@ kotlin {
         }
         commonMain.dependencies {
             // Ktorfit
-            implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfitVersion")
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
-            implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:$ktorfitVersion")
-            implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:$ktorfitVersion")
-            implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$ktorfitVersion")
+            implementation(libs.ktorfit)
+            implementation(libs.ktorfit.converters.response)
+            implementation(libs.ktorfit.converters.call)
+            implementation(libs.ktorfit.converters.flow)
             
-            //Only needed when you want to use Kotlin Serialization
-            implementation("io.ktor:ktor-client-serialization:$ktorVersion")
-            implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
-            implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
+            // Ktor
+            implementation(libs.ktor.client.serialization)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
             
             // Kotlinx
-            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.kotlinx.coroutines.core)
             
             // Compose
             implementation(compose.runtime)
@@ -72,7 +69,7 @@ kotlin {
 }
 
 dependencies {
-    with("de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion") {
+    with("de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit}") {
         add("kspCommonMainMetadata", this)
         add("kspAndroid", this)
         add("kspAndroidTest", this)
