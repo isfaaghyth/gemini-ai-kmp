@@ -49,6 +49,7 @@ kotlin {
             implementation(libs.ktor.client.serialization)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.extension.logging)
             
             // Kotlinx
             implementation(libs.kotlinx.serialization.json)
@@ -61,6 +62,10 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+
+            // Compose Experimental Libraries
+            implementation(libs.navigation.compose)
+            implementation(libs.androidx.lifecycle.viewmodel.compose)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -69,7 +74,7 @@ kotlin {
 }
 
 dependencies {
-    with("de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit}") {
+    with("de.jensklingenberg.ktorfit:ktorfit-ksp:2.0.0-beta1") {
         add("kspCommonMainMetadata", this)
         add("kspAndroid", this)
         add("kspAndroidTest", this)
