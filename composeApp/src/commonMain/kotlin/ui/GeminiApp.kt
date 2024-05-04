@@ -6,28 +6,24 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import di.Di
+import di.Providers
+import ui.uimodel.GeminiUiEvent
 
 @Composable
 fun GeminiApp(
-    viewModel: GeminiViewModel = viewModel {
-        GeminiViewModel(
-            Di.provideUseCase()
-        )
-    },
+    viewModel: GeminiViewModel = Providers().viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
-    val backStack by navController.currentBackStackEntryAsState()
+    val state by viewModel.state.collectAsState()
 
     Scaffold { innerPadding ->
         NavHost(
@@ -40,8 +36,12 @@ fun GeminiApp(
         ) {
             composable(route = GeminiRoute.Main.name) {
                 GeminiScreen(
-                    navigateToDetailPageClicked = {
-                        navController.navigate("detail/what-is-kotlin")
+                    uiModel = state,
+                    onSummarizeBook = { title ->
+                        viewModel.sendAction(GeminiUiEvent.Summarize(title))
+                    },
+                    navigateToDetailPageClicked = { result ->
+                        navController.navigate("detail/$result")
                     }
                 )
             }
@@ -52,10 +52,11 @@ fun GeminiApp(
                     navArgument(GeminiRoute.Arguments.CONTENT_ID) { type = NavType.StringType }
                 )
             ) { backStackEntry ->
-                val content = backStackEntry.arguments?.getString(GeminiRoute.Arguments.CONTENT_ID).orEmpty()
-                
+                val content = backStackEntry.arguments
+                    ?.getString(GeminiRoute.Arguments.CONTENT_ID)
+                    .orEmpty()
+
                 GeminiDetailScreen(
-                    viewModel = viewModel,
                     content = content,
                     onBack = {
                         resetStateAndNavigateToStart(viewModel, navController)
@@ -72,13 +73,4 @@ private fun resetStateAndNavigateToStart(
 ) {
     viewModel.resetState()
     navController.popBackStack(GeminiRoute.Main.name, inclusive = false)
-}
-
-sealed class GeminiRoute(val name: String) {
-    data object Main : GeminiRoute("main")
-    data object Detail : GeminiRoute("detail/{${Arguments.CONTENT_ID}}")
-
-    object Arguments {
-        const val CONTENT_ID = "contentId"
-    }
 }

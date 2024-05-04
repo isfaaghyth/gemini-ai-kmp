@@ -24,8 +24,12 @@ class GeminiViewModel constructor(
             _event.distinctUntilChanged()
                 .collect { event ->
                     when(event) {
-                        is GeminiUiEvent.Summarize -> summarizeBookFromImage(event.command)
-                        is GeminiUiEvent.Reset -> _state.update { GeminiUiModel() }
+                        is GeminiUiEvent.Summarize -> {
+                            sendAction(GeminiUiEvent.Loading)
+                            summarizeBookFromImage(event.command)
+                        }
+                        is GeminiUiEvent.Loading -> shouldShowLoadingState()
+                        is GeminiUiEvent.Reset -> disposeLastState()
                     }
                 }
         }
@@ -38,7 +42,11 @@ class GeminiViewModel constructor(
     fun resetState() {
         _event.tryEmit(GeminiUiEvent.Reset)
     }
-    
+
+    private fun shouldShowLoadingState() {
+        _state.update { it.copy(isLoading = true) }
+    }
+
     private fun summarizeBookFromImage(content: String) {
         viewModelScope.launch {
             val result = getContentUseCase(content)
@@ -46,10 +54,15 @@ class GeminiViewModel constructor(
             withContext(Dispatchers.Main) {
                 _state.update {
                     it.copy(
+                        isLoading = false,
                         summarization = result.text
                     )
                 }
             }
         }
+    }
+
+    private fun disposeLastState() {
+        _state.update { GeminiUiModel() }
     }
 }

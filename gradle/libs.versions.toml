@@ -19,6 +19,7 @@ kotlin = "1.9.22"
 ktorfit = "2.0.0-beta1"
 ksp = "1.9.23-1.0.20"
 ktor = "2.3.10"
+koin = "3.2.0"
 kotlinx-serialization = "1.9.22"
 kotlinx-serialization-json = "1.6.0"
 kotlinx-coroutines-core = "1.8.0"
@@ -51,6 +52,10 @@ ktor-extension-logging = { module = "io.ktor:ktor-client-logging", version.ref =
 
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines-core" }
+kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines-core" }
+
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

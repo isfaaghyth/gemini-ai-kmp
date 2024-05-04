@@ -37,6 +37,7 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.koin.android)
         }
         commonMain.dependencies {
             // Ktorfit
@@ -51,6 +52,9 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.ktor.extension.logging)
             
+            // Koin
+            implementation(libs.koin.core)
+
             // Kotlinx
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.coroutines.core)
@@ -69,6 +73,7 @@ kotlin {
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
+            implementation(libs.kotlinx.coroutines.swing)
         }
     }
 }
@@ -76,6 +81,7 @@ kotlin {
 dependencies {
     with("de.jensklingenberg.ktorfit:ktorfit-ksp:2.0.0-beta1") {
         add("kspCommonMainMetadata", this)
+        add("kspDesktop", this)
         add("kspAndroid", this)
         add("kspAndroidTest", this)
         add("kspIosX64", this)
