@@ -20,7 +20,7 @@ import ui.uimodel.GeminiUiEvent
 
 @Composable
 fun GeminiApp(
-    viewModel: GeminiViewModel = Providers().viewModel(),
+    viewModel: GeminiViewModel = Providers.viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
     val state by viewModel.state.collectAsState()
@@ -37,8 +37,8 @@ fun GeminiApp(
             composable(route = GeminiRoute.Main.name) {
                 GeminiScreen(
                     uiModel = state,
-                    onSummarizeBook = { title ->
-                        viewModel.sendAction(GeminiUiEvent.Summarize(title))
+                    onSummarizeBook = { command, byteArrayImage ->
+                        viewModel.sendAction(GeminiUiEvent.RequestWithAttachment(command, byteArrayImage))
                     },
                     navigateToDetailPageClicked = { result ->
                         navController.navigate("detail/$result")

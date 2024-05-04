@@ -23,6 +23,7 @@ koin = "3.2.0"
 kotlinx-serialization = "1.9.22"
 kotlinx-serialization-json = "1.6.0"
 kotlinx-coroutines-core = "1.8.0"
+util-image-picker = "0.5.2"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -56,6 +57,8 @@ kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-
 
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+
+util-image-picker = { module = "io.github.onseok:peekaboo-image-picker", version.ref = "util-image-picker" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

@@ -70,6 +70,9 @@ kotlin {
             // Compose Experimental Libraries
             implementation(libs.navigation.compose)
             implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+            // Utilities
+            implementation(libs.util.image.picker)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

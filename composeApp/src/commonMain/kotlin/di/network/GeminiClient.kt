@@ -18,7 +18,10 @@ object GeminiClient {
             install(ContentNegotiation) {
                 json(Json { isLenient = true; ignoreUnknownKeys = true })
             }
-            install(Logging)
+            install(Logging) {
+                logger = Logger.DEFAULT
+                level = LogLevel.ALL
+            }
         })
         converterFactories(
             FlowConverterFactory(),
