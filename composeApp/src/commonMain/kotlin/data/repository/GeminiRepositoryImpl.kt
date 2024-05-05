@@ -10,12 +10,14 @@ class GeminiRepositoryImpl(
 ) : GeminiRepository {
 
     override suspend fun request(content: String): GeminiResponse {
-        val request = ContentRequestBody.createTextOnlyRequest(content)
-        return api.generateContent(request, "AIzaSyAxlf-wVw45n1STGO8PWmlSAW9eiyFNaBM")
+        return api.generateContent(
+            ContentRequestBody.createTextOnlyRequest(content)
+        )
     }
 
     override suspend fun requestWithImage(content: String, image: ByteArray): GeminiResponse {
-        val request = ContentRequestBody.createTextAndImageAttachmentRequest(content, image)
-        return api.generateVisionContent(request, "AIzaSyAxlf-wVw45n1STGO8PWmlSAW9eiyFNaBM")
+        return api.generateVisionContent(
+            ContentRequestBody.createTextAndImageAttachmentRequest(content, image)
+        )
     }
 }
