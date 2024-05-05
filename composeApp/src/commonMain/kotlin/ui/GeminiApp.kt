@@ -17,6 +17,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import di.Providers
 import ui.uimodel.GeminiUiEvent
+import ui.screen.GeminiScreen
+import ui.screen.GeminiDetailScreen
 
 @Composable
 fun GeminiApp(
@@ -41,23 +43,23 @@ fun GeminiApp(
                         viewModel.sendAction(GeminiUiEvent.RequestWithAttachment(command, byteArrayImage))
                     },
                     navigateToDetailPageClicked = { result ->
-                        navController.navigate("detail/$result")
+                        navController.navigate("detail")
                     }
                 )
             }
 
             composable(
                 route = GeminiRoute.Detail.name,
-                arguments = listOf(
-                    navArgument(GeminiRoute.Arguments.CONTENT_ID) { type = NavType.StringType }
-                )
+//                arguments = listOf(
+//                    navArgument(GeminiRoute.Arguments.CONTENT_ID) { type = NavType.StringType }
+//                )
             ) { backStackEntry ->
-                val content = backStackEntry.arguments
-                    ?.getString(GeminiRoute.Arguments.CONTENT_ID)
-                    .orEmpty()
+//                val content = backStackEntry.arguments
+//                    ?.getString(GeminiRoute.Arguments.CONTENT_ID)
+//                    .orEmpty()
 
                 GeminiDetailScreen(
-                    content = content,
+                    uiModel = state,
                     onBack = {
                         resetStateAndNavigateToStart(viewModel, navController)
                     }
